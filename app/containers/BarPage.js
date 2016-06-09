@@ -9,6 +9,12 @@ var BarPage = React.createClass({
       <div className='jumbotron col-sm-12 text-center' style={transparentBg}>
         <h1> Nearest Bar </h1>
         <p> Coupe DeVilles </p>
+        <h3> Other Nearby Bars </h3>
+        <p> Biltmore </p>
+        <p> Crozet </p>
+        <p> Trinity </p>
+        <p> Boylan </p>
+        <p> St. Marteens </p>
       </div>
 
     )
