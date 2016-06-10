@@ -13,7 +13,7 @@ var Home = React.createClass({
         <Link to='/menu'>
         <div style={styles.space}><button type='button' className='btn btn-lg btn-secondary col-sm-6 col-sm-offset-3'> Menu </button></div>
         </Link>
-        <div style={styles.space}>
+        <div className='jumbotron col-sm-12 text-center' style={styles.transparentBg}>
         <img src='../../Two-Glasses-of-Beer-6.png' />
         </div>
         {/*Need to link this button to Nearest Bar page and make buttons bigger/darker*/}
