@@ -8,6 +8,7 @@ var BarPage = React.createClass({
   getInitialState: function () {
     return {
       barArray: [],
+      firstBar: '',
       lat: 0,
       lng: 0,
     };
@@ -17,7 +18,6 @@ var BarPage = React.createClass({
 
     var googleURL = 'https://www.googleapis.com/geolocation/v1/geolocate?key=';
     googleURL += 'AIzaSyBYTqKvFfX5oAQOVFL8G7dcY26H8-nNU9Q';
-    console.log(googleURL);
 
     $.post(googleURL, {},
       function (googleData) {
@@ -26,37 +26,62 @@ var BarPage = React.createClass({
             lat: googleData.location.lat,
             lng: googleData.location.lng,
           });
-      }.bind(this));
+        var url = 'https://api.foursquare.com/v2/venues/search?';
 
-    var url = 'https://api.foursquare.com/v2/venues/search?';
+        //App Stuff
+        url += 'client_id=302XBJMGHNZG4CRCPB2HXC51JP35LIDFM35FAQPIJ5U0MOKG';
+        url += '&client_secret=PJLEIJHCFSAGOPRHJBYMXNEH322WCKZB2HTCLJPVYR0PZVVY';
+        url += '&v=20160609';
 
-    //App Stuff
-    url += 'client_id=302XBJMGHNZG4CRCPB2HXC51JP35LIDFM35FAQPIJ5U0MOKG';
-    url += '&client_secret=PJLEIJHCFSAGOPRHJBYMXNEH322WCKZB2HTCLJPVYR0PZVVY';
-    url += '&v=20160521';
+        //Parameters for 'near' and 'restaurant'
+        url += '&ll=';
+        url += this.state.lat + ',' + this.state.lng;
+        url += '&query=bar,restaurant';
+        url += '&limit=50';
+        url += '&radius=1000';
 
-    //Parameters for 'near' and 'restaurant'
-    url += '&ll=';
-    console.log(this.state.lat);
-    url += this.state.lat + ',' + this.state.lng;
-    url += '&query= bar';
-    url += '&limit=50';
+        $.getJSON(url,
+          function (data) {
+            var tempBarArray = [];
+            var tempDistanceArray = [];
 
-    $.getJSON(url,
-      function (data) {
-        var tempBarArray = [];
+            console.log(data);
 
-        console.log(data);
+            $.each(data.response.venues, function (i, venues) {
+                  name = venues.name;
+                  distance = venues.location.distance;
+                  tempBarArray.push(name);
+                  tempDistanceArray.push(distance);
+                });
 
-        $.each(data.response.venues, function (i, venues) {
-              name = venues.name;
-              tempBarArray.push(name);
-            });
+            for (var i = 0; i < tempDistanceArray.length; i++) {
+              for (var j = 0; j < tempDistanceArray.length; j++) {
+                if (tempDistanceArray[i] > tempDistanceArray[j + 1]) {
+                  tempDistVar = tempDistanceArray[j + 1];
+                  tempDistanceArray[j + 1] = tempDistanceArray[i];
+                  tempDistanceArray[i] = tempDistVar;
+                  tempBarVar = tempBarArray[j + 1];
+                  tempBarArray[j + 1] = tempBarArray[i];
+                  tempBarArray[i] = tempBarVar;
+                }
+              }
+            }
 
-        this.setState({
-              barArray: tempBarArray,
-            });
+            tempBarArray.reverse();
+            tempFirstBar = tempBarArray.pop();
 
+            tempDistanceArray.reverse();
+            tempFirstDistance = tempDistanceArray.pop();
+
+            console.log(tempBarArray);
+            console.log(tempDistanceArray);
+
+            this.setState({
+                  barArray: tempBarArray,
+                  firstBar: tempFirstBar,
+                });
+
+          }.bind(this));
       }.bind(this));
 
   },
@@ -77,7 +102,7 @@ var BarPage = React.createClass({
     return (
       <div className='jumbotron col-sm-12 text-center' style={transparentBg}>
         <h1> Nearest Bar </h1>
-        <p> Coupe DeVilles </p>
+        <p> {this.state.firstBar} </p>
         <h3> Other Nearby Bars </h3>
         {this.printBars()}
       </div>
