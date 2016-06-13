@@ -21,7 +21,6 @@ var BarPage = React.createClass({
 
     $.post(googleURL, {},
       function (googleData) {
-        console.log(googleData);
         this.setState({
             lat: googleData.location.lat,
             lng: googleData.location.lng,
@@ -43,38 +42,26 @@ var BarPage = React.createClass({
         $.getJSON(url,
           function (data) {
             var tempBarArray = [];
-            var tempDistanceArray = [];
-
-            console.log(data);
+            var tempFirstBar = {};
 
             $.each(data.response.venues, function (i, venues) {
                   name = venues.name;
                   distance = venues.location.distance;
-                  tempBarArray.push(name);
-                  tempDistanceArray.push(distance);
+                  tempBarArray.push({
+                    name: name,
+                    distance: distance,
+                    firstAddress: venues.location.formattedAddress[0],
+                    secondAddress: venues.location.formattedAddress[1],
+                  });
+
                 });
 
-            for (var i = 0; i < tempDistanceArray.length; i++) {
-              for (var j = 0; j < tempDistanceArray.length; j++) {
-                if (tempDistanceArray[i] > tempDistanceArray[j + 1]) {
-                  tempDistVar = tempDistanceArray[j + 1];
-                  tempDistanceArray[j + 1] = tempDistanceArray[i];
-                  tempDistanceArray[i] = tempDistVar;
-                  tempBarVar = tempBarArray[j + 1];
-                  tempBarArray[j + 1] = tempBarArray[i];
-                  tempBarArray[i] = tempBarVar;
-                }
-              }
-            }
+            tempBarArray.sort(function (bar1, bar2) {
+              return bar1.distance - bar2.distance;
+            });
 
-            tempBarArray.reverse();
-            tempFirstBar = tempBarArray.pop();
-
-            tempDistanceArray.reverse();
-            tempFirstDistance = tempDistanceArray.pop();
-
-            console.log(tempBarArray);
-            console.log(tempDistanceArray);
+            tempFirstBar = tempBarArray[0];
+            tempBarArray.shift();
 
             this.setState({
                   barArray: tempBarArray,
@@ -86,27 +73,29 @@ var BarPage = React.createClass({
 
   },
 
-  sortBarArrayByDistance: function () {
-
-  },
-
   printBars: function () {
     return this.state.barArray.map(function (name, index) {
       //console.log({name});
-      return <p key={index}>{name}</p>;
+      return <p key={index}>{name.name}</p>;
     });
   },
 
   render: function () {
 
     return (
+      <div>
+        <Link to='/'>
+        <button type='button' className='btn btn-secondary col-sm-2' > Home </button>
+        </Link>
       <div className='jumbotron col-sm-12 text-center' style={transparentBg}>
-        <h1> Nearest Bar </h1>
-        <p> {this.state.firstBar} </p>
-        <h3> Other Nearby Bars </h3>
+        <h1> <b>Nearest Bar</b> </h1>
+        <h3> <i>{this.state.firstBar.name} </i></h3>
+
+        <h5> {this.state.firstBar.secondAddress}</h5>
+        <h3> <b>Other Nearby Bars </b></h3>
         {this.printBars()}
       </div>
-
+      </div>
     );
   },
 });
