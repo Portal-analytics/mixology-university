@@ -6,7 +6,11 @@ var Link = ReactRouter.Link;
 var Menu = React.createClass({
 
   componentWillMount: function () {
+    this.lastSort = 'Alphabetical';
     this.setState({
+      sort: "Popularity",
+      popularButtonDisabled: true,
+      alphabeticalButtonDisabled: false,
       drinkList: [
         {
           name: 'Rum and Coke',
@@ -559,12 +563,13 @@ var Menu = React.createClass({
     this.state.drinkList.sort(function (drink1, drink2) {
       return drink2.rating - drink1.rating;
     });
-    this.setState({
+    /*this.setState({
 
-    });
+    });*/
   },
 
   alphabeticalSort: function () {
+    var compared
     this.state.drinkList.sort(function (index1, index2) {
         var drink1 = index1.name;
         var drink2 = index2.name;
@@ -580,10 +585,41 @@ var Menu = React.createClass({
       return 0;
       });
 
+      /*this.setState({
+
+      });*/
+
+  },
+
+  shouldComponentUpdate: function () {
+
+    if (this.lastSort === this.state.sort) {
+      return false;
+    }
+    this.lastSort = this.state.sort;
+    return true;
+  },
+
+  setSortingPopularFn: function() {
+    if(this.state.sort === "Alphabetical") {
       this.setState({
-
+        sort: "Popularity",
+        alphabeticalButtonDisabled: false,
+        popularButtonDisabled: true,
       });
+      this.popularSort();
+    }
+  },
 
+  setSortingAlphabeticalFn: function () {
+    if (this.state.sort === "Popularity") {
+      this.setState({
+        sort: "Alphabetical",
+        popularButtonDisabled: false,
+        alphabeticalButtonDisabled: true,
+      });
+      this.alphabeticalSort();
+    }
   },
 
   render: function () {
@@ -596,8 +632,8 @@ var Menu = React.createClass({
         </Link>
         <div className ='jumbotron col-sm-12 text-center' style={styles.transparentBg}>
           <h1><i>Cocktail Menu</i></h1>
-          <button type='button' className='btn btn-lg btn-secondary' style={styles.rightspace} onClick={this.popularSort}>Popular</button>
-          <button type='button' className='btn btn-lg btn-secondary' onClick={this.alphabeticalSort}>Alphabetical</button>
+          <button type='button' className='btn btn-lg btn-secondary' disabled={this.state.popularButtonDisabled} style={styles.rightspace} onClick={this.setSortingPopularFn}>Popular</button>
+          <button type='button' className='btn btn-lg btn-secondary' disabled={this.state.alphabeticalButtonDisabled} onClick={this.setSortingAlphabeticalFn} >Alphabetical</button>
         </div>
         <div className ='jumbotron col-sm-12'>
           <ol class="list-group">
