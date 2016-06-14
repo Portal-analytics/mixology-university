@@ -13,16 +13,43 @@ var Homebrew = React.createClass({
     };
   },
 
+  addIngredient: function (ingredient) {
+    return function () {
+      selectedIngredients.push(ingredient);
+      console.log(selectedIngredients);
+    };
+
+  },
+
+  onSubmit: function(){
+    for ( i = 0; i > ingredientList.length; i++) {
+      for ( j =0; j > selectedIngredients.length; j++ ) {
+        if (ingredientList[i].indexOf(selectedIngredients[j] > -1)){
+          ingredientList.splice(i, 1, '');
+        }
+      }
+    }
+    while (ingredientList.indexOf('') > -1) {
+      ingredientList.splice(ingredientList.indexOf(''), 1);
+    }
+    console.log(ingredientList);
+  },
+
   showIngredientList: function () {
-    return this.state.ingredientList.map(function (ingredient) {
-      return <li className='checkbox'><label><input type='checkbox'></input>{ingredient}</label></li>;
-    });
+    return this.state.ingredientList.map(function (ingredient, id) {
+      return <li key={id} onClick={this.addIngredient(ingredient)}>
+                <label>
+                <input type='checkbox' value={ingredient}/>
+                {ingredient}
+                </label>
+             </li>;
+    }.bind(this));
   },
 
   filterDrinks: function () {
     for (i = 0; i < drinkList.length - 1; i++) {
       for (j = 0; j < selectedIngredients.length - 1; j++) {
-        if (drinkList[i].ingredients.includes(this.selectedIngredients[j])) {
+        if (drinkList[i].ingredients.includes(selectedIngredients[j])) {
           availableDrinks.remove(drinkList[i]);
         }
       }
@@ -38,6 +65,7 @@ var Homebrew = React.createClass({
       <ul>
       {this.showIngredientList()}
       </ul>
+      <button type='button' onClick={this.onSubmit}>Submit to me </button>
       </div>
     );
   },
