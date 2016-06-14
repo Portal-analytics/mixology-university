@@ -37,7 +37,6 @@ var Homebrew = React.createClass({
       <h2> ingredients </h2>
       <ul>
       {this.showIngredientList()}
-      {this.filterDrinks()}
       </ul>
       </div>
     );

@@ -8,11 +8,14 @@ var Main = require('../components/Main');
 var Home = require('../components/Home');
 var BarPage = require('../containers/BarPage');
 var Menu = require('../containers/Menu');
+var Homebrew = require('../containers/Homebrew');
 
 var routes = (
+
   <Router history={hashHistory}>
     <Route path='/' component={Main}>
       <IndexRoute component={Home} />
+      <Route path='/homebrew' component={Homebrew}/>
       <Route path='/barpage' component={BarPage}/>
       <Route path='/menu' component={Menu}/>
     </Route>
