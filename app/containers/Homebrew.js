@@ -33,8 +33,11 @@ var Homebrew = React.createClass({
   render: function () {
     return (
       <div>
-      <h1> Show us whatcha got</h1>
-      <h2> ingredients </h2>
+      <Link to='/'>
+        <button type='button' className='btn btn-secondary col-sm-12' > Home </button>
+      </Link>
+      <h1> Show Us Whatchu Got</h1>
+      <h2> Ingredients </h2>
       <ul>
       {this.showIngredientList()}
       </ul>
