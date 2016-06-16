@@ -13,7 +13,7 @@ var styles = {
   },
   trailspace: {
     marginBottom: '10px'
-  }
+  },
 };
 
 module.exports = styles;
