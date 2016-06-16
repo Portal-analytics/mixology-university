@@ -5,12 +5,15 @@ var Link = ReactRouter.Link;
 
 var Menu = React.createClass({
 
-  componentWillMount: function () {
-    this.lastSort = 'Alphabetical';
-    this.setState({
+  getInitialState: function () {
+    
+    return {
+      lastSort: 'Alphabetical',
       sort: "Popularity",
       popularButtonDisabled: true,
       alphabeticalButtonDisabled: false,
+      drinkName: null,
+      newDrinkIngredients: '',
       drinkList: [
         {
           name: 'Rum and Coke',
@@ -38,7 +41,7 @@ var Menu = React.createClass({
         },
         {
           name: 'Screwdriver',
-          ingredients: '12 oz	Orange Juice, 3 oz	Vodka',
+          ingredients: '12 oz	Orange Juice, 3 oz Vodka',
           rating: 4.55,
           url: 'http://www.barmeister.com/drinks/recipe/1345/?o=top100',
         },
@@ -110,13 +113,13 @@ var Menu = React.createClass({
         },
         {
           name: 'Alabama Slammer',
-          ingredients: '1/2 oz Southern Comfort, 1 oz Amaretto, 1/2 oz Sloe Gin, Splasf Lemon Juice',
+          ingredients: '1/2 oz Southern Comfort Whiskey, 1 oz Amaretto, 1/2 oz Sloe Gin, Splash Lemon Juice',
           rating: 4.50,
           url: 'http://www.barmeister.com/drinks/recipe/43/?o=top100',
         },
         {
           name: 'Mud Slide',
-          ingredients: '1 Part Vodka, 1 Part Kaklua, 1 Part Bailey\'s Irish Cream',
+          ingredients: '1 Part Vodka, 1 Part Kahlua, 1 Part Bailey\'s Irish Cream',
           rating: 4.50,
           url: 'http://www.barmeister.com/drinks/recipe/1046/?o=top100',
         },
@@ -200,7 +203,7 @@ var Menu = React.createClass({
         },
         {
           name: 'Rocky Mountain Mother Fucker',
-          ingredients: '2 oz Southern Comfort, 1 Part Amaretto, 1 Splash Lime Juice',
+          ingredients: '2 oz Southern Comfort Whiskey, 1 Part Amaretto, 1 Splash Lime Juice',
           rating: 4.49,
           url: 'http://www.barmeister.com/drinks/recipe/1282/?o=top100',
         },
@@ -284,211 +287,211 @@ var Menu = React.createClass({
         },
         {
           name: 'Wisconsin Lunchbox',
-          ingredients: '2 parts light beer (Milwaukees best for greatest effect), 1 part orange juice, 1 oz Amaretto',
+          ingredients: '2 parts light Beer (Milwaukees best for greatest effect), 1 part Orange Juice, 1 oz Amaretto',
           rating: 4.47,
           url: 'http://www.barmeister.com/drinks/recipe/1683/?o=top100',
         },
         {
           name: 'Screaming Blue Motherfucker',
-          ingredients: '1 oz vodka, 1 oz gin, 1 oz rum, 1 oz tequila, 1/2 oz triple sec, 1 oz blue curacao. Strap in and pray you dont die.',
+          ingredients: '1 oz Vodka, 1 oz Gin, 1 oz Rum, 1 oz Tequila, 1/2 oz Triple Sec, 1 oz Blue Curacao. Strap in and pray you dont die.',
           rating: 4.47,
           url: 'http://www.barmeister.com/drinks/recipe/1333/?o=top100'
         },
         {
           name: 'Rusty Nail',
-          ingredients: '1 part Drambuie, 1 part scotch',
+          ingredients: '1 part Drambuie, 1 part Scotch',
           rating: 4.47,
           url: 'http://www.barmeister.com/drinks/recipe/1311/?o=top100'
         },
         {
           name: 'Skittle Vodka',
-          ingredients: '1 liter vodka, 1 bag skittles',
+          ingredients: '1 liter Vodka, 1 bag Skittles',
           rating: 4.47,
           url: 'http://www.barmeister.com/drinks/recipe/1916/?o=top100'
         },
         {
           name: 'Virginia Snakebite',
-          ingredients: '1/2 pint Guinness, 1/2 pint Bold Rock Hard Cider, 1 1/2 shot vodka',
+          ingredients: '1/2 pint Guinness, 1/2 pint Bold Rock Hard Cider, 1 1/2 oz Vodka',
           rating: 4.47,
           url: 'http://www.barmeister.com/drinks/recipe/60/?o=top100'
         },
         {
           name: 'Margarita',
-          ingredients: '1 1/2 oz tequila, 1/2 oz triple sec, 1 oz lime juice, salt',
+          ingredients: '1 1/2 oz Tequila, 1/2 oz Triple Sec, 1 oz Lime Juice, Salt',
           rating: 4.47,
           url: 'http://www.barmeister.com/drinks/recipe/1749/?o=top100'
         },
         {
           name: 'Colorado Bulldog',
-          ingredients: '1 oz vodka, 1 oz Kahlua, splash of Coke, fill glass with milk. Tastes like chocolate milk, apparently.',
+          ingredients: '1 oz Vodka, 1 oz Kahlua, splash of Coke, fill glass with Milk. Tastes like chocolate milk, apparently.',
           rating: 4.47,
           url: 'http://www.barmeister.com/drinks/recipe/386/?o=top100'
         },
         {
           name: 'Four Horsemen',
-          ingredients: '1 part 151 proof rum, 1 part Jagermeister, 1 part rumpleminze, 1 part goldschlager',
+          ingredients: '1 part 151 Proof Rum, 1 part Jägermeister, 1 part Rumpleminze, 1 part Goldschlager',
           rating: 4.47,
           url: 'http://www.barmeister.com/drinks/recipe/598/?o=top100'
         },
         {
           name: 'B-52',
-          ingredients: '1 part Kahlua, 1 part grand marnier, 1 part Baileys',
+          ingredients: '1 part Kahlua, 1 part Grand Marnier, 1 part Bailey\'s Irish Cream',
           rating: 4.47,
           url: 'http://www.barmeister.com/drinks/recipe/102/?o=top100'
         },
         {
           name: 'Red Death',
-          ingredients: '1 oz vodka, 1 oz triple sec, 1/2 oz lime juice, 1/2 oz Southern Comfort, 1 oz Amaretto, 1/2 oz sloe gin, dash of lemon juice',
+          ingredients: '1 oz Vodka, 1 oz Triple Sec, 1/2 oz Lime Juice, 1/2 oz Southern Comfort Whiskey, 1 oz Amaretto, 1/2 oz Sloe Gin, splash Lemon Juice',
           rating: 4.46,
           url: 'http://www.barmeister.com/drinks/recipe/1248/?o=top100'
         },
         {
           name: 'Pina Colada',
-          ingredients: '2 oz coconut rum, pineapple, ice cream, ice',
+          ingredients: '2 oz Coconut Rum, Pineapple, Ice Cream, Ice',
           rating: 4.46,
           url: 'http://www.barmeister.com/drinks/recipe/1161/?o=top100'
         },
         {
           name: 'Shirley Temple',
-          ingredients: '1 glass ginger ale, 1 dash grenadine, shot of Jameson. Will put hair on your chest.',
+          ingredients: '1 glass Ginger Ale, 1 dash Grenadine, 1 oz Jameson. Will put hair on your chest.',
           rating: 4.46,
           url: 'http://www.barmeister.com/drinks/recipe/1383/?o=top100'
         },
         {
           name: 'Banana Mama',
-          ingredients: '1 cup rum, splash of grenadine, half banana, cup of pina colada mix, ice',
+          ingredients: '1 cup Rum, splash of Grenadine, half Banana, cup of Pina Colada Mix, Ice',
           rating: 4.46,
           url: 'http://www.barmeister.com/drinks/recipe/124/?o=top100'
         },
         {
           name: 'Sex with an Alligator',
-          ingredients: '3/4 oz Midori melon liqueur, 3 dashes of sweet and sour mix, 3/4 raspberry liqueur, 1/4 oz Jagermeister',
+          ingredients: '3/4 oz Midori Melon Liqueur, 3 dashes of Sweet and Sour Mix, 3/4 oz Raspberry Liqueur, 1/4 oz Jägermeister',
           rating: 4.46,
           url: 'http://www.barmeister.com/drinks/recipe/1378/?o=top100'
         },
         {
           name: 'Mind Eraser',
-          ingredients: '1 part vodka, 1 part Kahlua, fill with 7Up',
+          ingredients: '1 part Vodka, 1 part Kahlua, fill with 7-Up',
           rating: 4.46,
           url: 'http://www.barmeister.com/drinks/recipe/1005/?o=top100'
         },
         {
           name: 'Tequila Sunrise',
-          ingredients: '2 oz tequila, 5 oz orange juice, 2 dashes grenadine',
+          ingredients: '2 oz Tequila, 5 oz Orange Juice, 2 dashes Grenadine',
           rating: 4.45,
           url: 'http://www.barmeister.com/drinks/recipe/1543/?o=top100'
         },
         {
           name: 'Hurricane',
-          ingredients: '1 oz vodka, 1 oz gin, 1 oz light rum, 1/2 oz 151 proof rum, 1 oz Amaretto, 1 oz Triple sec, 3 splashes of grapefruit and pineapple juices, dash of grenadine',
+          ingredients: '1 oz Vodka, 1 oz Gin, 1 oz Light Rum, 1/2 oz 151 Proof Rum, 1 oz Amaretto, 1 oz Triple Sec, 3 splashes of Grapefruit Juice and Pineapple Juice, dash of Grenadine',
           rating: 4.45,
           url: 'http://www.barmeister.com/drinks/recipe/781/?o=top100'
         },
         {
           name: 'Bay Breeze',
-          ingredients: '2 parts coconut rum, 1 part pineapple juice, 1 part cranberry juice',
+          ingredients: '2 parts Coconut Rum, 1 part Pineapple Juice, 1 part Cranberry Juice',
           rating: 4.45,
           url: 'http://www.barmeister.com/drinks/recipe/958/?o=top100'
         },
         {
           name: 'Red Snapper',
-          ingredients: '1 1/2 oz Amaretto, 1 1/2 oz whiskey, 3/4 oz cranberry juice',
+          ingredients: '1 1/2 oz Amaretto, 1 1/2 oz Whiskey, 3/4 oz Cranberry Juice',
           rating: 4.45,
           url: 'http://www.barmeister.com/drinks/recipe/1261/?o=top100'
         },
         {
           name: 'Friday Sign',
-          ingredients: '1 1/2 oz spiced rum, 3/4 oz cointreau, 1 oz Tangelo juice, 1 oz lemon juice',
+          ingredients: '1 1/2 oz Spiced Rum, 3/4 oz Cointreau, 1 oz Tangelo Juice, 1 oz Lemon Juice',
           rating: 4.45,
           url: 'http://www.barmeister.com/drinks/recipe/2022/?o=top100'
         },
         {
           name: 'Yucca',
-          ingredients: '1 fifth of vodka/tequila, 1/2 bag of crushed ice, cup of sugar, 4 lemons',
+          ingredients: '1 Fifth of Vodka or Tequila, 1/2 bag of Crushed Ice, cup of Sugar, 4 Lemon',
           rating: 4.45,
           url: 'http://www.barmeister.com/drinks/recipe/1701/?o=top100'
         },
         {
           name: 'Thug Passion',
-          ingredients: '3 parts Alize cognac, 1 part Hennessy',
+          ingredients: '3 parts Alize Cognac, 1 part Hennessy Cognac',
           rating: 4.44,
           url: 'http://www.barmeister.com/drinks/recipe/1566/?o=top100'
         },
         {
           name: 'China White',
-          ingredients: '3/4 oz Creme de Cacao, 1/4 oz Baileys Irish Cream, teaspoon of cinnamon',
+          ingredients: '3/4 oz Creme de Cacao, 1/4 oz Bailey\'s Irish Cream, teaspoon of Cinnamon',
           rating: 4.44,
           url: 'http://www.barmeister.com/drinks/recipe/345/?o=top100'
         },
         {
           name: 'Jamaican Ten Speed',
-          ingredients: '2 parts Malibu, 1 part banana liqueur, 1 part Midori melon liqueur, 4 parts cream, 4 parts pineapple juice',
+          ingredients: '2 parts Malibu Rum, 1 part Banana Liqueur, 1 part Midori Melon Liqueur, 4 parts Light Cream, 4 parts Pineapple Juice',
           rating: 4.44,
           url: 'http://www.barmeister.com/drinks/recipe/822/?o=top100'
         },
         {
           name: 'Bloody Jim',
-          ingredients: '1 part Jim Bean, 3 parts cranberry juice',
+          ingredients: '1 part Jim Bean Whiskey, 3 parts Cranberry Juice',
           rating: 4.44,
           url: 'http://www.barmeister.com/drinks/recipe/194/?o=top100'
         },
         {
           name: 'Caipirinha',
-          ingredients: '2 oz Cachaca brandy, 3 teaspoons sugar, 2 slices of lime',
+          ingredients: '2 oz Cachaca Brandy, 3 teaspoons Sugar, 2 slices of Lime',
           rating: 4.44,
           url: 'http://www.barmeister.com/drinks/recipe/283/?o=top100'
         },
         {
           name: 'Bacardi O & 7Up',
-          ingredients: '2 oz Bacardi Orange rum, fill with 7Up',
+          ingredients: '2 oz Bacardi Orange Rum, fill with 7-Up',
           rating: 4.43,
           url: 'http://www.barmeister.com/drinks/recipe/1871/?o=top100'
         },
         {
           name: 'Sicilian Kiss',
-          ingredients: '1 part Amaretto, 1 part Southern Comfort ',
+          ingredients: '1 part Amaretto, 1 part Southern Comfort Whiskey',
           rating: 4.43,
           url: 'http://www.barmeister.com/drinks/recipe/1387/?o=top100'
         },
         {
           name: 'Blue Hawaiian',
-          ingredients: '1 oz light rum, 1 oz blue curacao, 1 oz cream of coconut, 2 oz pineapple juice, garnish with pineapple and cherry',
+          ingredients: '1 oz light Rum, 1 oz Blue Curacao, 1 oz Cream of Coconut, 2 oz Pineapple Juice, garnish with Pineapple and Cherry',
           rating: 4.43,
           url: 'http://www.barmeister.com/drinks/recipe/204/?o=top100'
         },
         {
           name: 'Melon Ball',
-          ingredients: '3 oz Malibu coconut rum, 3 oz pineapple juice, 1 oz melon liqueur',
+          ingredients: '3 oz Malibu Coconut Rum, 3 oz Pineapple Juice, 1 oz Midori Melon Liqueur',
           rating: 4.42,
           url: 'http://www.barmeister.com/drinks/recipe/981/?o=top100'
         },
         {
           name: 'Nuts and Berries',
-          ingredients: '1 oz Chambord, 1 oz Frangelico, splash of Baileys Irish Cream',
+          ingredients: '1 oz Chambord, 1 oz Frangelico, splash of Bailey\'s Irish Cream',
           rating: 4.42,
           url: 'http://www.barmeister.com/drinks/recipe/1086/?o=top100'
         },
         {
           name: 'Arnold Palmer',
-          ingredients: '3 oz vodka, fill with equal parts lemonade and iced tea',
+          ingredients: '3 oz Vodka, fill with equal parts Lemonade and Iced Tea',
           rating: 4.41,
           url: 'http://www.barmeister.com/drinks/recipe/93/?o=top100'
         },
         {
           name: 'Liquid Cocaine #7',
-          ingredients: '1 part Amaretto, 3 parts Southern Comfort, 2 parts pineapple juice',
+          ingredients: '1 part Amaretto, 3 parts Southern Comfort Whiskey, 2 parts Pineapple Juice',
           rating: 4.41,
           url: 'http://www.barmeister.com/drinks/recipe/918/?o=top100'
         },
         {
           name: 'Flaming Dr. Pepper',
-          ingredients: '1 pint beer, 1 oz Amaretto, 1 dash Everclear',
+          ingredients: '1 pint Beer, 1 oz Amaretto, 1 dash Everclear',
           rating: 4.41,
           url: 'http://www.barmeister.com/drinks/recipe/578/?o=top100'
         },
         {
           name: 'Red Headed Slut',
-          ingredients: '1 part Jagermeister, 1 part Vodka, 1 splash cranberry juice',
+          ingredients: '1 part Jägermeister, 1 part Vodka, 1 splash Cranberry Juice',
           rating: 4.41,
           url: 'http://www.barmeister.com/drinks/recipe/1255/?o=top100'
         },
@@ -500,7 +503,7 @@ var Menu = React.createClass({
         },
         {
           name: 'Pearl Harbor',
-          ingredients: '1 oz Midori Melon Liqueur, 1/2 oz vodka, fill with pineapple juice, garnish with pineapple and cherry',
+          ingredients: '1 oz Midori Melon Liqueur, 1/2 oz Vodka, fill with Pineapple Juice, garnish with Pineapple and Cherry',
           rating: 4.40,
           url: 'http://www.barmeister.com/drinks/recipe/1142/?o=top100'
         },
@@ -512,49 +515,46 @@ var Menu = React.createClass({
         },
         {
           name: 'Cape Cod',
-          ingredients: '1 part vodka, 2 part cranberry juice',
+          ingredients: '1 part Vodka, 2 part Cranberry Juice',
           rating: 4.39,
           url: 'http://www.barmeister.com/drinks/recipe/297/?o=top100'
         },
         {
           name: 'Red Devil',
-          ingredients: '1 oz Sloe gin, 1/2 oz Southern Comfort, 1/2 oz Amaretto, 1/2 oz Vodka, 1/2 oz lime juice, 1/2 oz Triple Sec, 5 oz Orange Juice',
+          ingredients: '1 oz Sloe Gin, 1/2 oz Southern Comfort Whiskey, 1/2 oz Amaretto, 1/2 oz Vodka, 1/2 oz Lime Juice, 1/2 oz Triple Sec, 5 oz Orange Juice',
           rating: 4.38,
           url: 'http://www.barmeister.com/drinks/recipe/1251/?o=top100'
         },
         {
           name: 'Gladiator',
-          ingredients: '1/2 oz Southern Comfort, 1/2 oz Amaretto, 1 part 7Up, 1 part Orange Juice',
+          ingredients: '1/2 oz Southern Comfort Whiskey, 1/2 oz Amaretto, 1 part 7-Up, 1 part Orange Juice',
           rating: 4.38,
           url: 'http://www.barmeister.com/drinks/recipe/672/?o=top100'
         },
         {
           name: 'Lemon Drop',
-          ingredients: '1 oz vodka, a pinch of sugar, a slice of lemon',
+          ingredients: '1 oz Vodka, a pinch of Sugar, a slice of Lemon',
           rating: 4.35,
           url: 'http://www.barmeister.com/drinks/recipe/898/?o=top100'
         },
         {
           name: 'Juicy Pussy',
-          ingredients: '3/4 oz Peach Schnapps, 1/4 oz Bailey\'s Irish Cream, 1/2 glass of orange juice',
+          ingredients: '3/4 oz Peach Schnapps, 1/4 oz Bailey\'s Irish Cream, 1/2 glass of Orange Juice',
           rating: 4.36,
           url: 'http://www.barmeister.com/drinks/recipe/853/?o=top100'
         },
         {
           name: 'Singapore Sling',
-          ingredients: '1 1/2 oz Gin, 1/2 oz Brandy, 3 dashes benedictine, dash of grenadine, dash of lemon juice, fill with club soda',
+          ingredients: '1 1/2 oz Gin, 1/2 oz Brandy, 3 dashes Benedictine, dash of Grenadine, dash of Lemon Juice, fill with Soda Water',
           rating: 4.37,
           url: 'http://www.barmeister.com/drinks/recipe/1393/?o=top100'
         }
       ],
-    });
-    return {};
+    };
   },
 
   drinkListReturn: function () {
     return this.state.drinkList.map(function (name, index) {
-      //console.log({name});
-      //Need URL with <a></a>
       return <li><a href={name.url} class="list-group-item active"><h4 key={index}>{name.name}</h4><p>{name.ingredients}</p></a></li>;
     });
   },
@@ -563,13 +563,9 @@ var Menu = React.createClass({
     this.state.drinkList.sort(function (drink1, drink2) {
       return drink2.rating - drink1.rating;
     });
-    /*this.setState({
-
-    });*/
   },
 
   alphabeticalSort: function () {
-    var compared
     this.state.drinkList.sort(function (index1, index2) {
         var drink1 = index1.name;
         var drink2 = index2.name;
@@ -580,19 +576,11 @@ var Menu = React.createClass({
         if (drink1 > drink2) {
           return 1;
         }
-
-      // names must be equal
       return 0;
       });
-
-      /*this.setState({
-
-      });*/
-
   },
 
   shouldComponentUpdate: function () {
-
     if (this.lastSort === this.state.sort) {
       return false;
     }
@@ -622,18 +610,85 @@ var Menu = React.createClass({
     }
   },
 
+  onUpdateNewDrinkName: function (e) {
+    this.setState({
+      drinkName: e.target.value,
+    });
+
+  },
+
+  onUpdateNewDrinkIngredients: function (e) {
+    this.setState({
+      newDrinkIngredients: e.target.value
+    });
+  },
+
+  addDrink: function (e) {
+    console.log("adddrink function!");
+    var urlName = this.state.drinkName.replace(/\s/g, '+');
+    e.preventDefault();
+    var drinkName = this.state.drinkName;
+    var newDrinkIngredients = this.state.newDrinkIngredients;
+    var drinkList = this.state.drinkList;
+    drinkList.push({name: this.state.drinkName, ingredients: this.state.newDrinkIngredients, rating: 5, url: 'http://google.com/#q=' + urlName});
+    this.setState({
+      drinkList: drinkList,
+      drinkName: '',
+      newDrinkIngredients: '',
+    }, function () {
+        console.log(this.state);
+    });
+  },
+
+  renderForm: function() {
+    console.log("render form");
+    return (
+      <div id={this.state.drinkName}>
+        <form>
+            <div className="form-group col-sm-4">
+              <label for="drinkNameInput">Drink Name</label>
+              <input
+                className="form-control"
+                placeholder="Enter Drink Name"
+                onChange={this.onUpdateNewDrinkName}
+                value={this.drinkName}
+                type="text"/>
+              <small className="text-muted">Please input the name of your favorite drink!</small>
+            </div>
+            <div className="form-group col-sm-6">
+              <label for="drinkIngredientsInput">Drink Ingredients</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Enter Drink Ingredients"
+                onChange={this.onUpdateNewDrinkIngredients}
+                value={this.newDrinkIngredients}/>
+              <small className="text-muted">Please input the ingredients to your drink!</small>
+            </div>
+            <button className="btn btn-secondary btn-md" type='button' onClick={this.addDrink} style={styles.space}>
+              Submit
+            </button>
+          </form>
+      </div>
+    )
+  },
+
   render: function () {
+     
       return (
 
       <div>
+        <div className='col-sm-10'> </div>
         <Link to='/'>
-        <div className="col-sm-10"> </div>
         <button type='button' className='btn btn-secondary col-sm-2' > Home </button>
         </Link>
         <div className ='jumbotron col-sm-12 text-center' style={styles.transparentBg}>
           <h1><i>Cocktail Menu</i></h1>
           <button type='button' className='btn btn-lg btn-secondary' disabled={this.state.popularButtonDisabled} style={styles.rightspace} onClick={this.setSortingPopularFn}>Popular</button>
           <button type='button' className='btn btn-lg btn-secondary' disabled={this.state.alphabeticalButtonDisabled} onClick={this.setSortingAlphabeticalFn} >Alphabetical</button>
+        </div>
+        <div style={styles.transparentBg, styles.trailspace}>
+          {this.renderForm()}
         </div>
         <div className ='jumbotron col-sm-12'>
           <ol class="list-group">
