@@ -12,7 +12,7 @@ var Menu = React.createClass({
       sort: "Popularity",
       popularButtonDisabled: true,
       alphabeticalButtonDisabled: false,
-      drinkName: null,
+      drinkName: '',
       newDrinkIngredients: '',
       drinkList: [
         {
@@ -553,9 +553,50 @@ var Menu = React.createClass({
     };
   },
 
+ handleDrinkNameChange: function (e) {
+    this.setState({
+      drinkName: e.target.value,
+    }, function() {
+      console.log(this.state.drinkName);
+    });
+  },
+
+  handleNewIngredientsChange: function (e) {
+    this.setState({
+      newdrinkingredients: e.target.value,
+    }, function() {
+      console.log(this.state.newdrinkingredients);
+    });
+  },
+
+  handleSubmit: function (e) {
+    var urlName = this.state.drinkName.replace(/\s/g, '+');
+    e.preventDefault();
+    var drinkName = this.state.drinkName;
+    this.state.drinkList.push({name: this.state.drinkName, ingredients: this.state.newdrinkingredients, rating: 5, url: 'http://google.com/#q=' + urlName + '+cocktail'});
+    this.setState({
+      drinklist: this.state.drinkList,
+      drinkName: '',
+      newdrinkingredients: '',
+    });
+    console.log(this.state.drinkList);
+  },
+
+  handlePopSort: function () {
+    this.setState({
+      drinkList: this.popularSort(),
+    });
+  },
+
+  handleAlphSort: function () {
+    this.setState({
+      drinkList: this.alphabeticalSort(),
+    });
+  },
+
   drinkListReturn: function () {
-    return this.state.drinkList.map(function (name, index) {
-      return <li><a href={name.url} class="list-group-item active"><h4 key={index}>{name.name}</h4><p>{name.ingredients}</p></a></li>;
+    return this.state.drinkList.map(function (index) {
+      return <li><a href={index.url}><h4 key={index}>{index.name}</h4><p>{index.ingredients}</p></a></li>;
     });
   },
 
@@ -563,6 +604,9 @@ var Menu = React.createClass({
     this.state.drinkList.sort(function (drink1, drink2) {
       return drink2.rating - drink1.rating;
     });
+    this.setSortingPopularFn();
+    return this.state.drinkList;
+    console.log(this.state.drinkList);
   },
 
   alphabeticalSort: function () {
@@ -572,133 +616,83 @@ var Menu = React.createClass({
         if (drink1 < drink2) {
           return -1;
         }
-
         if (drink1 > drink2) {
           return 1;
         }
       return 0;
       });
+    this.setSortingAlphabeticalFn();
+    return this.state.drinkList;
+    console.log(this.state.drinkList);
   },
 
-  shouldComponentUpdate: function () {
-    if (this.lastSort === this.state.sort) {
-      return false;
-    }
-    this.lastSort = this.state.sort;
-    return true;
-  },
-
-  setSortingPopularFn: function() {
+  setSortingPopularFn: function () {
     if(this.state.sort === "Alphabetical") {
       this.setState({
         sort: "Popularity",
         alphabeticalButtonDisabled: false,
         popularButtonDisabled: true,
       });
-      this.popularSort();
     }
   },
 
-  setSortingAlphabeticalFn: function () {
+  setSortingAlphabeticalFn: function() {
     if (this.state.sort === "Popularity") {
       this.setState({
         sort: "Alphabetical",
         popularButtonDisabled: false,
         alphabeticalButtonDisabled: true,
       });
-      this.alphabeticalSort();
     }
   },
 
-  onUpdateNewDrinkName: function (e) {
-    this.setState({
-      drinkName: e.target.value,
-    });
-
-  },
-
-  onUpdateNewDrinkIngredients: function (e) {
-    this.setState({
-      newDrinkIngredients: e.target.value
-    });
-  },
-
-  addDrink: function (e) {
-    console.log("adddrink function!");
-    var urlName = this.state.drinkName.replace(/\s/g, '+');
-    e.preventDefault();
-    var drinkName = this.state.drinkName;
-    var newDrinkIngredients = this.state.newDrinkIngredients;
-    var drinkList = this.state.drinkList;
-    drinkList.push({name: this.state.drinkName, ingredients: this.state.newDrinkIngredients, rating: 5, url: 'http://google.com/#q=' + urlName});
-    this.setState({
-      drinkList: drinkList,
-      drinkName: '',
-      newDrinkIngredients: '',
-    }, function () {
-        console.log(this.state);
-    });
-  },
-
-  renderForm: function() {
-    console.log("render form");
-    return (
-      <div id={this.state.drinkName}>
-        <form>
-            <div className="form-group col-sm-4">
-              <label for="drinkNameInput">Drink Name</label>
-              <input
-                className="form-control"
-                placeholder="Enter Drink Name"
-                onChange={this.onUpdateNewDrinkName}
-                value={this.drinkName}
-                type="text"/>
-              <small className="text-muted">Please input the name of your favorite drink!</small>
-            </div>
-            <div className="form-group col-sm-6">
-              <label for="drinkIngredientsInput">Drink Ingredients</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Enter Drink Ingredients"
-                onChange={this.onUpdateNewDrinkIngredients}
-                value={this.newDrinkIngredients}/>
-              <small className="text-muted">Please input the ingredients to your drink!</small>
-            </div>
-            <button className="btn btn-secondary btn-md" type='button' onClick={this.addDrink} style={styles.space}>
-              Submit
-            </button>
-          </form>
-      </div>
-    )
-  },
-
   render: function () {
-     
-      return (
-
+    return (
       <div>
-        <div className='col-sm-10'> </div>
+      <div className='col-sm-10'> </div>
         <Link to='/'>
         <button type='button' className='btn btn-secondary col-sm-2' > Home </button>
         </Link>
         <div className ='jumbotron col-sm-12 text-center' style={styles.transparentBg}>
           <h1><i>Cocktail Menu</i></h1>
-          <button type='button' className='btn btn-lg btn-secondary' disabled={this.state.popularButtonDisabled} style={styles.rightspace} onClick={this.setSortingPopularFn}>Popular</button>
-          <button type='button' className='btn btn-lg btn-secondary' disabled={this.state.alphabeticalButtonDisabled} onClick={this.setSortingAlphabeticalFn} >Alphabetical</button>
+          <button type='button' className='btn btn-secondary btn-lg' disabled={this.state.popularButtonDisabled} style={styles.rightspace} onClick={this.handlePopSort}> Popular </button>
+        <button type='button' className='btn btn-secondary btn-lg' disabled={this.state.alphabeticalButtonDisabled} onClick={this.handleAlphSort}> Alphabetical </button>
         </div>
-        <div style={styles.transparentBg, styles.trailspace}>
-          {this.renderForm()}
+        <div style={styles.transparentBg}>
+        <form onSubmit={this.handleSubmit}>
+        <div className="form-group col-sm-4">
+        <label>Drink Name</label>
+        <input
+          className='form-control'
+          type='text'
+          placeholder='Drink Name'
+          value={this.state.drinkName}
+          onChange={this.handleDrinkNameChange}
+        />
+        <small className="text-muted">Please input the name of your favorite drink!</small>
+        </div>
+        <div className="form-group col-sm-6">
+           <label for="drinkIngredientsInput">Drink Ingredients</label>
+        <input
+          className='form-control'
+          type='text'
+          placeholder='Drink Ingredients'
+          value={this.state.newdrinkingredients}
+          onChange={this.handleNewIngredientsChange}
+        />
+        <small className="text-muted">Please input the ingredients to your drink!</small>
+        </div>
+        <button type='submit' className='btn btn-primary' style={styles.space}> Submit </button>
+        </form>
         </div>
         <div className ='jumbotron col-sm-12'>
-          <ol class="list-group">
-            {this.drinkListReturn()}
-          </ol>
+        <ol>
+          {this.drinkListReturn()}
+        </ol>
         </div>
       </div>
-
-      );
-    },
+    )
+  }
 });
 
 module.exports = Menu;
