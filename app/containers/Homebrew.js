@@ -10,11 +10,11 @@ var Homebrew = React.createClass({
   getInitialState: function () {
 
     return {
+      drinkList: JSON.parse(localStorage.getItem('drinkList')),
       ingredientList: ['Rum',
                       'Coke',
                       'Vodka',
                       'Kahlua',
-                      'Cream',
                       'Whiskey',
                       '7-Up',
                       'Tequila',
@@ -30,7 +30,6 @@ var Homebrew = React.createClass({
                       'Creme de Cacao',
                       'Coco Lopez',
                       'Amaretto',
-                      'Ice',
                       'Nutmeg',
                       'Whipped Cream',
                       'Midori Melon Liqueur',
@@ -38,23 +37,19 @@ var Homebrew = React.createClass({
                       'Bourbon',
                       'Triple Sec',
                       'Fruit Punch',
-                      'Pineapple Juice',
                       'Creme de Menthe',
                       'Creme de Cocoa',
-                      'Ice Cream',
+                      'Ice-Cream',
                       'Hpnotiq',
                       'Hennessy Cognac',
                       'Frangelico',
-                      'Southern Comfort',
                       'Gin',
-                      'Lemon Juice',
                       'Cranberry Juice',
                       'Butterscotch Schnapps',
                       'Blue Curacao',
                       'Sour Apple Pucker',
                       'Banana Liqueur',
                       'Milk',
-                      'Lime Juice',
                       'Apple Pucker Schnapps',
                       'Big Red',
                       'Sugar',
@@ -65,7 +60,6 @@ var Homebrew = React.createClass({
                       'Ginger Beer',
                       'Goldschlager',
                       'Chambord',
-                      'Beer',
                       'Drambuie',
                       'Scotch',
                       'Skittles',
@@ -87,17 +81,15 @@ var Homebrew = React.createClass({
                       'Cinnamon',
                       'Brandy',
                       'Lime',
-                      'cream of Coconut',
+                      'Cream of Coconut',
                       'Cherry',
                       'Chambord',
                       'Lemonade',
                       'Iced Tea',
                       'Kool-Aid',
                       'Benedictine',
-                      'Bailey',
+                      'Light Cream',
                       ],
-
-      drinkList: [],
     };
   },
 
@@ -129,8 +121,9 @@ var Homebrew = React.createClass({
     console.log(finalDrinkList.length);
     for (i = 0; i < this.state.ingredientList.length; i++) {
       console.log('first loop');
+      console.log(this.state.ingredientList[i]);
       for (j = 0; j < finalDrinkList.length; j++) {
-
+        //console.log(finalDrinkList[j]);
         if (finalDrinkList[j].indexOf(this.state.ingredientList[i]) > -1) {
 
           this.state.drinkList.splice(j, 1, '');

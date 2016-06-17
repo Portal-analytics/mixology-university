@@ -73,7 +73,7 @@ var Home = React.createClass({
                     },
                     {
                       name: 'Bushwacker',
-                      ingredients: '1 oz    Light Rum, 1 oz Dark Rum, 2 oz  Kahlua, 2 oz    Creme de Cacao, 1 oz    Coco Lopez, 2 oz    Bailey\'s Irish Cream, 1 oz Amaretto, 2 cup Ice, 1 dash Nutmeg, 1 scoop Whipped Cream',
+                      ingredients: '1 oz Light Rum, 1 oz Dark Rum, 2 oz Kahlua, 2 oz Creme de Cacao, 1 oz Coco Lopez, 2 oz Bailey\'s Irish Cream, 1 oz Amaretto, 2 cup Ice, 1 dash Nutmeg, 1 scoop Whipped Cream',
                       rating: 4.51,
                       drinkNumber: 9,
                       url: 'http://www.barmeister.com/drinks/recipe/269/?o=top100',
@@ -94,14 +94,14 @@ var Home = React.createClass({
                     },
                     {
                       name: 'Zombie',
-                      ingredients: '1 oz Light Rum, 1 oz Amber Rum, 1 oz Dark Rum, 1/2 oz   Cherry Bourbon, 1/2 oz Triple Sec, 2 oz Fruit Punch, 2 oz   Pineapple Juice',
+                      ingredients: '1 oz Light Rum, 1 oz Amber Rum, 1 oz Dark Rum, 1/2 oz Cherry Bourbon, 1/2 oz Triple Sec, 2 oz Fruit Punch, 2 oz Pineapple Juice',
                       rating: 4.50,
                       drinkNumber: 12,
                       url: 'http://www.barmeister.com/drinks/recipe/1706/?o=top100',
                     },
                     {
                       name: 'Grasshopper',
-                      ingredients: '3/4 oz Creme de Menthe, 1/2 oz White Creme de Cocoa, 2 1/2 scoops Vanilla Ice Cream',
+                      ingredients: '3/4 oz Creme de Menthe, 1/2 oz White Creme de Cocoa, 2 1/2 scoops Vanilla Ice-Cream',
                       rating: 4.50,
                       drinkNumber: 13,
                       url: 'http://www.barmeister.com/drinks/recipe/706/?o=top100',
@@ -395,7 +395,7 @@ var Home = React.createClass({
                     },
                     {
                       name: 'Pina Colada',
-                      ingredients: '2 oz Coconut Rum, Pineapple, Ice Cream, Ice',
+                      ingredients: '2 oz Coconut Rum, Pineapple, Ice-Cream, Ice',
                       rating: 4.46,
                       drinkNumber: 55,
                       url: 'http://www.barmeister.com/drinks/recipe/1161/?o=top100'
@@ -640,9 +640,9 @@ var Home = React.createClass({
     },
 
     setLocalStorage: function () {
-        if(JSON.parse(localStorage.getItem('drinkList')) === null) {
+        //if(JSON.parse(localStorage.getItem('drinkList')) === null) {
             localStorage.setItem('drinkList', JSON.stringify(this.state.drinkList));
-        };
+        //};
     },
 
     render: function () {

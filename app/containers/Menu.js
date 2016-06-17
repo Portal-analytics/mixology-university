@@ -10,11 +10,6 @@ var Menu = React.createClass({
   },
 
   getInitialState: function () {
-    /*var tempList = this.props.location.state;
-    var newList = [];
-    for(i = 0; i < tempList.drinkList.drinkList.length; i ++) {
-      newList.push(tempList.drinkList.drinkList[i]);
-    };*/
 
     return {
       lastSort: 'Alphabetical',
@@ -91,12 +86,14 @@ var Menu = React.createClass({
         <div>
           <li>
             <div>
-            <button type='button' className='btn' style={{float: "right"}} onClick={function() {this.removeDrink(index)}.bind(this)}> X </button>
+            <div className="btn-group" role='group' style={{float: "right"}}>
+            <button type="button" className='btn btn-primary'> Edit </button>
+            <button type='button' className='btn btn-danger' onClick={function() {this.removeDrink(index)}.bind(this)}> X </button>
+            </div>
             <a href={index.url}>
               <h4 key={index}>{index.name}</h4>
               <p>{index.ingredients}</p>
             </a>
-            
             </div>
           </li>
         </div>
@@ -197,7 +194,6 @@ var Menu = React.createClass({
         </div>
         <div className ='jumbotron col-sm-12' style={styles.transparentBg}>
         <ol>
-          {/*Gets printed every render*/}
           {this.drinkListReturn()}
         </ol>
         </div>
