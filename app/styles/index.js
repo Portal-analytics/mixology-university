@@ -5,6 +5,9 @@ var styles = {
   space: {
     marginTop: '25px',
   },
+  leftspace: {
+    marginLeft: '40px'
+  },
   rightspace: {
     marginRight: '25px',
   },

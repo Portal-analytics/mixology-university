@@ -640,9 +640,9 @@ var Home = React.createClass({
     },
 
     setLocalStorage: function () {
-        //if(JSON.parse(localStorage.getItem('drinkList')) === null) {
+        if(JSON.parse(localStorage.getItem('drinkList')) === null) {
             localStorage.setItem('drinkList', JSON.stringify(this.state.drinkList));
-        //};
+        };
     },
 
     render: function () {

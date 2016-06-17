@@ -2,12 +2,9 @@ var React = require('react');
 var styles = require('../styles');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
+var Editor = require('./Editor');
 
 var Menu = React.createClass({
-
-  contextTypes: {
-    router: React.PropTypes.object.isRequired
-  },
 
   getInitialState: function () {
 
@@ -16,9 +13,12 @@ var Menu = React.createClass({
       sort: "Popularity",
       popularButtonDisabled: true,
       alphabeticalButtonDisabled: false,
+      editDrinkName: '',
+      editDrinkIngredients: '',
       drinkName: '',
       newDrinkIngredients: '',
       drinkList: JSON.parse(localStorage.getItem('drinkList')),
+      isEditing: 'Edit',
 
     };
   },
@@ -73,24 +73,53 @@ var Menu = React.createClass({
 
   removeDrink: function (name) {
     var index = this.state.drinkList.indexOf(name);
-    console.log(index);
     this.state.drinkList.splice(index, 1);
     this.setState({
       drinkList: this.state.drinkList,
     });
   },
 
+  editName: function (e) {
+    this.setState({
+      drinkList: e.target.value,
+    });
+    console.log(this.state.editDrinkName);
+    /*var index = this.state.drinkList.indexOf(name);
+    this.state.drinkList[index].name = this.state.editDrinkName;
+    this.setState({
+      drinkList: this.state.drinkList,
+    });*/
+
+  },
+
+  editDrinkList: function (e) {
+    console.log(this.state.drinkList.indexOf(e));
+  },
+
+  /*editIngredients: function (name) {
+    console.log(this.state.editIngredients);
+    var index = this.state.drinkList.indexOf(name);
+    this.state.drinkList[index].ingredients = this.state.EditDrinkIngredients;
+    this.setState({
+      drinkList: this.state.drinkList,
+    });
+  },*/
+
   drinkListReturn: function () {
+  if (this.state.isEditing === 'Save') {
+    return this.state.drinkList.map(function (drink, index) {
+      return (
+        <Editor object={drink} index={index}/>
+        );
+    });
+  } else {
     return this.state.drinkList.map(function (index) {
       return (
-        <div>
+        <div style={{color: 'black'}}>
           <li>
             <div>
-            <div className="btn-group" role='group' style={{float: "right"}}>
-            <button type="button" className='btn btn-primary'> Edit </button>
-            <button type='button' className='btn btn-danger' onClick={function() {this.removeDrink(index)}.bind(this)}> X </button>
-            </div>
-            <a href={index.url}>
+            <button type='button' className='btn btn-danger' style={{float: "right"}} onClick={function() {this.removeDrink(index)}.bind(this)}> X </button>
+            <a href={index.url} style={{color: 'black'}}>
               <h4 key={index}>{index.name}</h4>
               <p>{index.ingredients}</p>
             </a>
@@ -100,6 +129,7 @@ var Menu = React.createClass({
       );
     }.bind(this)
     );
+  };
   },
 
   popularSort: function () {
@@ -108,7 +138,6 @@ var Menu = React.createClass({
     });
     this.setSortingPopularFn();
     return this.state.drinkList;
-    console.log(this.state.drinkList);
   },
 
   alphabeticalSort: function () {
@@ -125,7 +154,6 @@ var Menu = React.createClass({
       });
     this.setSortingAlphabeticalFn();
     return this.state.drinkList;
-    console.log(this.state.drinkList);
   },
 
   setSortingPopularFn: function () {
@@ -152,20 +180,39 @@ var Menu = React.createClass({
         localStorage.setItem('drinkList', JSON.stringify(this.state.drinkList));
   },
 
+  toggleEditableList: function () {
+    if(this.state.isEditing === 'Edit') {
+      this.setState({
+        isEditing: 'Save',
+      });
+    } else {
+      let drinkList = JSON.parse(localStorage.getItem('drinkList'));
+      this.setState({
+        isEditing: 'Edit',
+        drinkList: drinkList,
+      });
+    };
+  },
+
+  saveDrinkList: function () {
+    this.setState({
+      drinkList: this.state.drinkList,
+    });
+  },
+
   render: function () {
     this.setLocalStorage();
     return (
       <div>
-      <div className='col-sm-10'> </div>
         <Link to='/'>
-        <button type='button' className='btn btn-secondary col-sm-2' > Home </button>
+        <button type='button' className='btn btn-secondary col-sm-2' style={{float: "right"}}> Home </button>
         </Link>
         <div className ='jumbotron col-sm-12 text-center' style={styles.transparentBg}>
           <h1><i>Cocktail Menu</i></h1>
           <button type='button' className='btn btn-secondary btn-lg' disabled={this.state.popularButtonDisabled} style={styles.rightspace} onClick={this.handlePopSort}> Popular </button>
         <button type='button' className='btn btn-secondary btn-lg' disabled={this.state.alphabeticalButtonDisabled} onClick={this.handleAlphSort}> Alphabetical </button>
         </div>
-        <div style={styles.transparentBg}>
+        <div className="jumbotron" style={styles.transparentBg}>
         <form onSubmit={this.handleSubmit}>
         <div className="form-group col-sm-4">
         <label>Drink Name*</label>
@@ -176,7 +223,7 @@ var Menu = React.createClass({
           value={this.state.drinkName}
           onChange={this.handleDrinkNameChange}
         />
-        <small className="text-muted">Please input the name of your favorite drink!</small>
+        <small className="text-muted">*Must input a drink name*</small>
         </div>
         <div className="form-group col-sm-6">
            <label for="drinkIngredientsInput">Drink Ingredients</label>
@@ -187,12 +234,14 @@ var Menu = React.createClass({
           value={this.state.newdrinkingredients}
           onChange={this.handleNewIngredientsChange}
         />
-        <small className="text-muted">Please input the ingredients to your drink!</small>
         </div>
-        <button type='submit' className='btn btn-primary' style={styles.space}> Submit </button>
+        <button type='submit' className='btn btn-primary'> Submit </button>
         </form>
         </div>
-        <div className ='jumbotron col-sm-12' style={styles.transparentBg}>
+        <div className='btn-group'>
+        <button type='button' className='btn btn-secondary' style={styles.leftspace} onClick={this.toggleEditableList}>{this.state.isEditing}</button>
+        </div>
+        <div className =' col-sm-12'>
         <ol>
           {this.drinkListReturn()}
         </ol>
