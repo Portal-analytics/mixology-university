@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Portal-analytics/mixology-university#readme",
   "dependencies": {
     "react": "^15.1.0",
+    "react-contenteditable": "^1.1.0",
     "react-dom": "^15.1.0",
     "react-router": "^2.4.1"
   },
