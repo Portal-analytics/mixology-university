@@ -9,8 +9,7 @@ var Menu = React.createClass({
   getInitialState: function () {
 
     return {
-      lastSort: 'Alphabetical',
-      sort: "Popularity",
+      sortListBy: "Popularity",
       popularButtonDisabled: true,
       alphabeticalButtonDisabled: false,
       editDrinkName: '',
@@ -18,7 +17,7 @@ var Menu = React.createClass({
       drinkName: '',
       newDrinkIngredients: '',
       drinkList: JSON.parse(localStorage.getItem('drinkList')),
-      isEditing: 'Edit',
+      editButtonString: 'Edit',
 
     };
   },
@@ -41,15 +40,15 @@ var Menu = React.createClass({
 
   handleSubmit: function (e) {
     if(this.state.drinkName !== '') {
-    var urlName = this.state.drinkName.replace(/\s/g, '+');
-    e.preventDefault();
-    var drinkName = this.state.drinkName;
-    this.state.drinkList.push({name: this.state.drinkName, ingredients: this.state.newdrinkingredients, rating: 5, drinkNumber: this.state.drinkList.length, url: 'http://google.com/#q=' + urlName + '+cocktail'});
-    this.setState({
-      drinklist: this.state.drinkList,
-      drinkName: '',
-      newdrinkingredients: '',
-    });
+      e.preventDefault();
+      var urlName = this.state.drinkName.replace(/\s/g, '+');
+      var drinkName = this.state.drinkName;
+      this.state.drinkList.push({name: this.state.drinkName, ingredients: this.state.newdrinkingredients, rating: 5, drinkNumber: this.state.drinkList.length, url: 'http://google.com/#q=' + urlName + '+cocktail'});
+      this.setState({
+        drinklist: this.state.drinkList,
+        drinkName: '',
+        newdrinkingredients: '',
+      });
   } else {
     this.setState({
       drinkName: '',
@@ -83,30 +82,11 @@ var Menu = React.createClass({
     this.setState({
       drinkList: e.target.value,
     });
-    console.log(this.state.editDrinkName);
-    /*var index = this.state.drinkList.indexOf(name);
-    this.state.drinkList[index].name = this.state.editDrinkName;
-    this.setState({
-      drinkList: this.state.drinkList,
-    });*/
 
   },
-
-  editDrinkList: function (e) {
-    console.log(this.state.drinkList.indexOf(e));
-  },
-
-  /*editIngredients: function (name) {
-    console.log(this.state.editIngredients);
-    var index = this.state.drinkList.indexOf(name);
-    this.state.drinkList[index].ingredients = this.state.EditDrinkIngredients;
-    this.setState({
-      drinkList: this.state.drinkList,
-    });
-  },*/
 
   drinkListReturn: function () {
-  if (this.state.isEditing === 'Save') {
+  if (this.state.editButtonString === 'Save') {
     return this.state.drinkList.map(function (drink, index) {
       return (
         <Editor object={drink} index={index}/>
@@ -144,22 +124,17 @@ var Menu = React.createClass({
     this.state.drinkList.sort(function (index1, index2) {
         var drink1 = index1.name.toUpperCase();
         var drink2 = index2.name.toUpperCase();
-        if (drink1 < drink2) {
-          return -1;
-        }
-        if (drink1 > drink2) {
-          return 1;
-        }
-      return 0;
+        if (drink1 == drink2) return 0;
+        return (drink1 < drink2) ? -1 : 1;
       });
     this.setSortingAlphabeticalFn();
     return this.state.drinkList;
   },
 
   setSortingPopularFn: function () {
-    if(this.state.sort === "Alphabetical") {
+    if(this.state.sortListBy === "Alphabetical") {
       this.setState({
-        sort: "Popularity",
+        sortListBy: "Popularity",
         alphabeticalButtonDisabled: false,
         popularButtonDisabled: true,
       });
@@ -167,9 +142,9 @@ var Menu = React.createClass({
   },
 
   setSortingAlphabeticalFn: function() {
-    if (this.state.sort === "Popularity") {
+    if (this.state.sortListBy === "Popularity") {
       this.setState({
-        sort: "Alphabetical",
+        sortListBy: "Alphabetical",
         popularButtonDisabled: false,
         alphabeticalButtonDisabled: true,
       });
@@ -181,23 +156,17 @@ var Menu = React.createClass({
   },
 
   toggleEditableList: function () {
-    if(this.state.isEditing === 'Edit') {
+    if(this.state.editButtonString === 'Edit') {
       this.setState({
-        isEditing: 'Save',
+        editButtonString: 'Save',
       });
     } else {
       let drinkList = JSON.parse(localStorage.getItem('drinkList'));
       this.setState({
-        isEditing: 'Edit',
+        editButtonString: 'Edit',
         drinkList: drinkList,
       });
     };
-  },
-
-  saveDrinkList: function () {
-    this.setState({
-      drinkList: this.state.drinkList,
-    });
   },
 
   render: function () {
@@ -239,7 +208,7 @@ var Menu = React.createClass({
         </form>
         </div>
         <div className='btn-group'>
-        <button type='button' className='btn btn-secondary' style={styles.leftspace} onClick={this.toggleEditableList}>{this.state.isEditing}</button>
+        <button type='button' className='btn btn-secondary' style={styles.leftspace} onClick={this.toggleEditableList}>{this.state.editButtonString}</button>
         </div>
         <div className =' col-sm-12'>
         <ol>

@@ -16,6 +16,7 @@ var Editor = React.createClass({
 	},
 
 	handleNameChange: function (e) {
+		console.log(e.target);
 		this.setState({
 			html: e.target.value,
 		});	

@@ -104,10 +104,6 @@ var Homebrew = React.createClass({
         this.state.ingredientList.push(ingredient);
         selectedIngredients.splice(selectedIngredients.indexOf(ingredient), 1);
       }
-
-      console.log(this.state.ingredientList.length);
-      console.log('Selected ingredients ' + selectedIngredients);
-
     }.bind(this);
 
   },
@@ -118,12 +114,8 @@ var Homebrew = React.createClass({
       finalDrinkList[k] = this.state.drinkList[k].ingredients;
     }
 
-    console.log(finalDrinkList.length);
     for (i = 0; i < this.state.ingredientList.length; i++) {
-      console.log('first loop');
-      console.log(this.state.ingredientList[i]);
       for (j = 0; j < finalDrinkList.length; j++) {
-        //console.log(finalDrinkList[j]);
         if (finalDrinkList[j].indexOf(this.state.ingredientList[i]) > -1) {
 
           this.state.drinkList.splice(j, 1, '');
@@ -133,18 +125,11 @@ var Homebrew = React.createClass({
 
     while (this.state.drinkList.indexOf('') > -1) {
       this.state.drinkList.splice(this.state.drinkList.indexOf(''), 1);
-      console.log('snagged');
-    }
-
-    for (l = 0; l < this.state.drinkList.length; l++) {
-      console.log('Available drinks are : ');
-      console.log(this.state.drinkList[l].name + ' ' + this.state.drinkList[l].rating);
-
     }
 
   },
 
-  showIngredientList: function () {
+  renderIngredientListItems: function () {
     this.state.ingredientList.sort();
     return this.state.ingredientList.map(function (ingredient, id) {
       return <li key={id} >

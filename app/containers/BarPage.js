@@ -73,9 +73,8 @@ var BarPage = React.createClass({
 
   },
 
-  printBars: function () {
+  renderBarComponents: function () {
     return this.state.barArray.map(function (name, index) {
-      //console.log({name});
       return <p key={index}>{name.name}</p>;
     });
   },
@@ -84,17 +83,17 @@ var BarPage = React.createClass({
 
     return (
       <div>
-        <Link to='/'>
-        <button type='button' className='btn btn-secondary col-sm-2' > Home </button>
-        </Link>
-      <div className='jumbotron col-sm-12 text-center' style={transparentBg}>
-        <h1> <b>Nearest Bar</b> </h1>
-        <h3> <i>{this.state.firstBar.name} </i></h3>
+          <Link to='/'>
+          <button type='button' className='btn btn-secondary col-sm-2' > Home </button>
+          </Link>
+        <div className='jumbotron col-sm-12 text-center' style={transparentBg}>
+          <h1> <b>Nearest Bar</b> </h1>
+          <h3> <i>{this.state.firstBar.name} </i></h3>
 
-        <h5> {this.state.firstBar.secondAddress}</h5>
-        <h3> <b>Other Nearby Bars </b></h3>
-        {this.printBars()}
-      </div>
+          <h5> {this.state.firstBar.secondAddress}</h5>
+          <h3> <b>Other Nearby Bars </b></h3>
+          {this.renderBarComponents()}
+        </div>
       </div>
     );
   },
